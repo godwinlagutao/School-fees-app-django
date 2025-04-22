@@ -1,0 +1,36 @@
+{% extends 'fees/base.html' %}
+
+{% block content %}
+<div class="logout-confirmation">
+    <h2>You've Successfully Logged Out</h2>
+    <div class="logout-actions">
+        <a href="{% url 'login' %}" class="btn btn-primary">Log Back In</a>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Return Home</a>
+    </div>
+</div>
+
+<style>
+    .logout-confirmation {
+        max-width: 500px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .logout-actions {
+        margin-top: 2rem;
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    @media (max-width: 600px) {
+        .logout-actions {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}

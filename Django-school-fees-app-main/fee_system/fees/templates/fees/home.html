@@ -1,0 +1,102 @@
+{% extends 'fees/base.html' %}
+
+{% block content %}
+<!-- Home Page Content -->
+<div class="home-container">
+    <h1>Welcome to the WAUU School Fees Management System</h1>
+
+    <!-- Theme Toggle Instructions -->
+    <p class="intro-text">Manage your school fees, track payments, and view clearance statuses in one place.</p>
+
+    <!-- Authentication Links -->
+    <div class="auth-links">
+        {% if not user.is_authenticated %}
+        <p><a href="{% url 'register' %}" class="btn btn-primary">Register as Student</a></p>
+        <p><a href="{% url 'login' %}" class="btn btn-primary">Login</a></p>
+        {% else %}
+        <p><a href="{% url 'dashboard' %}" class="btn btn-success">Go to Dashboard</a></p>
+        {% endif %}
+    </div>
+
+    <!-- Info Section -->
+    <div class="info-section">
+        <h3>Why Use This System?</h3>
+        <ul>
+            <li><strong>Track Payments:</strong> Keep a record of your fee payments and payment history.</li>
+            <li><strong>Clearance Status:</strong> View your clearance status based on fee payments.</li>
+            <li><strong>Convenient Access:</strong> Access all your fee-related information from one place.</li>
+        </ul>
+    </div>
+</div>
+
+<style>
+    /* Container for Home Page */
+    .home-container {
+        max-width: 900px;
+        margin: 20px auto;
+        padding: 20px;
+        background: var(--background-light);
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .home-container.dark-mode {
+        background: var(--background-dark);
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: var(--text-color);
+        margin-bottom: 20px;
+    }
+
+    .intro-text {
+        font-size: 1.2rem;
+        color: var(--text-color);
+        margin-bottom: 30px;
+    }
+
+    .auth-links {
+        margin: 20px 0;
+    }
+
+    .auth-links a {
+        display: inline-block;
+        margin: 10px;
+        font-size: 1rem;
+        text-decoration: none;
+    }
+
+    .auth-links .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    .info-section {
+        margin-top: 40px;
+        font-size: 1.2rem;
+        color: var(--text-color);
+    }
+
+    .info-section h3 {
+        font-size: 1.8rem;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    .info-section ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .info-section li {
+        margin-bottom: 10px;
+        font-size: 1rem;
+    }
+
+    .info-section li strong {
+        font-weight: 600;
+    }
+</style>
+{% endblock %}

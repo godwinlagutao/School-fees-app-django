@@ -1,0 +1,155 @@
+{% extends 'fees/base.html' %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2>Student Dashboard</h2>
+
+    <div class="student-info">
+        <h3>Your Information</h3>
+        <p><strong>Name:</strong> {{ student.name }}</p>
+        <p><strong>Student ID:</strong> {{ student.student_id }}</p>
+        <p><strong>Department:</strong> {{ student.department }}</p>
+        <p><strong>Level:</strong> {{ student.level }}</p>
+    </div>
+
+    <div class="clearance-status">
+        <h3>Clearance Status</h3>
+        {% if clearance_created %}
+        <div class="alert alert-info">
+            Your clearance record was just created.
+        </div>
+        {% endif %}
+        <p>
+            <strong>Status:</strong>
+            <span class="{% if clearance.is_approved %}status-approved{% else %}status-pending{% endif %}">
+                {% if clearance.is_approved %}Approved{% else %}Pending{% endif %}
+            </span>
+        </p>
+        {% if clearance.notes %}
+        <p><strong>Notes:</strong> {{ clearance.notes }}</p>
+        {% endif %}
+    </div>
+
+    <div class="clearance-section">
+        <h3>Examination Clearance</h3>
+        {% if is_fully_cleared %}
+        <a href="{% url 'download_clearance' %}" class="btn btn-success">
+            Download Clearance Certificate
+        </a>
+        {% else %}
+        <div class="alert alert-warning">
+            Pending fee payments - clearance not available
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="payments-section">
+        <h3>Fee Payments</h3>
+        {% if payments %}
+        <table class="payments-table">
+            <thead>
+                <tr>
+                    <th>Fee Category</th>
+                    <th>Amount Paid</th>
+                    <th>Date Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for payment in payments %}
+                <tr>
+                    <td>{{ payment.fee_category.name }}</td>
+                    <td>{{ payment.amount_paid }}</td>
+                    <td>{{ payment.date_paid|date:"Y-m-d" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No payment records found.</p>
+        {% endif %}
+    </div>
+    <div class="pending-fees">
+        <h4>List of Fees</h4>
+        <ul>
+            <li>Tuition Fee: ₦300k (Half payment required for clearance)</li>
+            <!-- {% for fee in pending_fees %}
+            <li>{{ fee.name }}: ₦{{ fee.amount }}(Required for clearance)</li>
+            {% endfor %}
+            -->
+            <li>Admin Fee: ₦25000</li>
+            <li>Evaluation fee: ₦25000 </li>
+            <li>Convocation Fee: ₦75000</li>
+            <li>Faculty Fee: 12000 cfa(Required for clearance)</li>
+            <li>French Fee: 5000 cfa (Required for clearance)</li>
+            <li>Project Fee: 30000 cfa</li>
+            <li>Medical Fee: 10000 cfa (Required for clearance)</li>
+            <li>Hostel Fee: 80000 cfa</li>
+            <li>Internet Fee: 5000 cfa</li>
+
+
+
+
+        </ul>
+    </div>
+
+    <br>
+    <p>NB: Some fees will differ depending on your department and level, so please discuss this with your accountant.
+    </p>
+</div>
+
+<style>
+    .dashboard-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: #f9f9f9;
+        border-radius: 8px;
+    }
+
+    .student-info,
+    .clearance-status,
+    .payments-section {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: white;
+        border-radius: 5px;
+    }
+
+    .status-approved {
+        color: white;
+        background-color: var(--primary-green);
+        /* Using your green */
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .status-pending {
+        color: var(--text-dark);
+        /* Using your dark text color */
+        background-color: var(--primary-yellow);
+        /* Using your yellow */
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .payments-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .payments-table th,
+    .payments-table td {
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .payments-table th {
+        background-color: #f2f2f2;
+    }
+</style>
+{% endblock %}

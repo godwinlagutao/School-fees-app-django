@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Fees Management System</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-red: #e63946;
+            /* Vibrant red for alerts/important items */
+            --primary-green: #2a9d8f;
+            /* Calm green for success/positive actions */
+            --primary-yellow: #ffbe0b;
+            /* Bright yellow for warnings/pending status */
+            --nav-dark: #1d3557;
+            /* Dark blue for navigation */
+            --background-light: #f1faee;
+            /* Soft off-white background */
+            --text-dark: #1d3557;
+            /* Dark blue text */
+            --text-light: #f1faee;
+            /* Light text for dark backgrounds */
+        }
+
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header/Navbar Styles */
+        header {
+            background: var(--nav-dark);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--primary-yellow);
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.admin {
+            background-color: var(--primary-yellow);
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .nav-link.admin:hover {
+            background-color: #ffd60a;
+        }
+
+        .nav-link.logout {
+            background-color: var(--primary-red);
+        }
+
+        .nav-link.logout:hover {
+            background-color: #ef233c;
+        }
+
+        /* Main Content Area */
+        main {
+            padding: 2rem;
+            min-height: calc(100vh - 72px);
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-success {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+        .alert-warning {
+            background-color: var(--primary-yellow);
+            color: var(--text-dark);
+        }
+
+        .alert-error {
+            background-color: var(--primary-red);
+            color: white;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background-color: var(--nav-dark);
+            color: white;
+        }
+
+        .btn-success {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+        .btn-warning {
+            background-color: var(--primary-yellow);
+            color: var(--text-dark);
+        }
+
+        .btn-danger {
+            background-color: var(--primary-red);
+            color: white;
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-header {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-yellow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Add this to your existing CSS */
+        .nav-form {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-form button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font: inherit;
+            padding: 0;
+        }
+
+        /* This ensures the logout button matches other nav items */
+        .nav-link.logout {
+            background-color: var(--primary-red);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link.logout:hover {
+            background-color: #ef233c;
+            transform: translateY(-2px);
+        }
+
+        /* Status Indicators */
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-paid {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+        .status-pending {
+            background-color: var(--primary-yellow);
+            color: var(--text-dark);
+        }
+
+        .status-overdue {
+            background-color: var(--primary-red);
+            color: white;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-image {
+            height: 40px;
+            /* Adjust based on your logo */
+            width: auto;
+            max-width: 120px;
+            /* Prevent too wide logos */
+        }
+
+        /* If you want to remove the graduation cap icon */
+        .logo i.fa-graduation-cap {
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            nav {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'img/logo.png' %}" alt="School Logo" class="logo-image">
+            <span>School Fees System</span>
+        </div>
+
+        <nav>
+            <a href="{% url 'admin:index' %}" class="nav-link admin">
+                <i class="fas fa-lock"></i> Admin
+            </a>
+
+            <a href="{% url 'home' %}" class="nav-link admin">
+                <i class="fas fa-home"></i> Home
+            </a>
+
+
+            {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="nav-link">
+                <i class="fas fa-chart-pie"></i> Dashboard
+            </a>
+
+
+            <form action="{% url 'logout' %}" method="post" class="nav-form">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+                {% endif %}
+
+        </nav>
+    </header>
+
+    <main>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            <i
+                class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}times-circle{% else %}exclamation-circle{% endif %}"></i>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        // Simple animation for nav links on hover
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                link.style.transform = 'translateY(-2px)';
+            });
+            link.addEventListener('mouseleave', () => {
+                link.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+
+</html>
